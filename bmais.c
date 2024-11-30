@@ -22,14 +22,13 @@ No* criarNo(bool ehFolha)
     novoNo->qtdFilhos = 0;
     novoNo->ehFolha = ehFolha;
 
-    // Inicializa as chaves e ponteiros
     for (int i = 0; i < MAX_CHAVES + 1; i++) novoNo->chaves[i] = -1;
     for (int i = 0; i < MAX_CHAVES + 2; i++) novoNo->ponteirosFilhos[i] = NULL;
 
     return novoNo;
 }
 
-void dividirRaiz(No* raiz) 
+void cisaoRaiz(No* raiz) 
 {
     No* filhoEsq = criarNo(raiz->ehFolha);
     No* filhoDir = criarNo(raiz->ehFolha);
@@ -69,7 +68,7 @@ void dividirRaiz(No* raiz)
     raiz->ehFolha = false;
 }
 
-void dividirFilho(No* pai, int idx) 
+void cisaoFilho(No* pai, int idx) 
 {
     No* filho = pai->ponteirosFilhos[idx];
     No* novoFilho = criarNo(filho->ehFolha);
@@ -133,7 +132,7 @@ void inserirChave(No* no, int chave)
         while (i > 0 && no->chaves[i - 1] > chave) i--;
         inserirChave(no->ponteirosFilhos[i], chave);
 
-        if (no->ponteirosFilhos[i]->qtdChaves > MAX_CHAVES) dividirFilho(no, i);
+        if (no->ponteirosFilhos[i]->qtdChaves > MAX_CHAVES) cisaoFilho(no, i);
     }
 }
 
@@ -149,7 +148,7 @@ No* inserir(No* raiz, int chave)
 
     inserirChave(raiz, chave);
 
-    if (raiz->qtdChaves > MAX_CHAVES) dividirRaiz(raiz);
+    if (raiz->qtdChaves > MAX_CHAVES) cisaoRaiz(raiz);
 
     return raiz;
 }
